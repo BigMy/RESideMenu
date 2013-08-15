@@ -22,14 +22,9 @@
     [super viewDidLoad];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(showMenu)];
     
-    UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
-    [self.view addGestureRecognizer:gestureRecognizer];
 }
 
-- (void)swipeHandler:(UIPanGestureRecognizer *)sender
-{
-    [[self sideMenu] showFromPanGesture:sender];
-}
+
 
 #pragma mark -
 #pragma mark Button actions

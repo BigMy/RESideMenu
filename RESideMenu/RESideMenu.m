@@ -46,6 +46,8 @@ NSString * const RESideMenuDidClose = @"RESideMenuDidClose";
 @property (strong, readonly, nonatomic) UIImageView *screenshotView;
 @property (strong, readonly, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIViewController *topController;
+// Added by BigMy. To proccess topController panning.
+@property (strong, nonatomic) UIPanGestureRecognizer *topControllerPanRecognizer;
 
 // Array containing menu (which are array of items)
 @property (strong, readwrite, nonatomic) NSMutableArray *menuStack;
@@ -69,6 +71,8 @@ NSString * const RESideMenuDidClose = @"RESideMenuDidClose";
         self.hideStatusBarArea = YES;
         self.openStatusBarStyle = UIStatusBarStyleDefault;
         self.menuStack = [NSMutableArray array];
+        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
+        self.topControllerPanRecognizer = panGestureRecognizer;
     }
     
     return self;
@@ -191,6 +195,8 @@ NSString * const RESideMenuDidClose = @"RESideMenuDidClose";
 
 - (void)displayContentController:(UIViewController *)content;
 {
+    [self.topControllerPanRecognizer.view removeGestureRecognizer:self.topControllerPanRecognizer];
+
     if (self.topController) {
         [self.topController willMoveToParentViewController:nil];
         [self.topController.view removeFromSuperview];
@@ -200,6 +206,7 @@ NSString * const RESideMenuDidClose = @"RESideMenuDidClose";
     [self addChildViewController:content];
     content.view.frame = self.view.bounds;
     [self.view addSubview:content.view];
+    [content.view addGestureRecognizer:_topControllerPanRecognizer];
     [content didMoveToParentViewController:self];
     
     self.topController = content;
@@ -458,6 +465,12 @@ NSString * const RESideMenuDidClose = @"RESideMenuDidClose";
 {
     [self restoreFromRect:_screenshotView.frame];
 }
+
+-(void)swipeHandler:(UIPanGestureRecognizer *)sender
+{
+    [self showFromPanGesture:sender];
+}
+
 
 #pragma mark -
 #pragma mark Table view data source
