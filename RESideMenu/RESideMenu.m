@@ -71,7 +71,7 @@ NSString * const RESideMenuDidClose = @"RESideMenuDidClose";
         self.hideStatusBarArea = YES;
         self.openStatusBarStyle = UIStatusBarStyleDefault;
         self.menuStack = [NSMutableArray array];
-        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
+        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(showFromPanGesture:)];
         self.topControllerPanRecognizer = panGestureRecognizer;
     }
     
@@ -466,10 +466,6 @@ NSString * const RESideMenuDidClose = @"RESideMenuDidClose";
     [self restoreFromRect:_screenshotView.frame];
 }
 
--(void)swipeHandler:(UIPanGestureRecognizer *)sender
-{
-    [self showFromPanGesture:sender];
-}
 
 
 #pragma mark -
